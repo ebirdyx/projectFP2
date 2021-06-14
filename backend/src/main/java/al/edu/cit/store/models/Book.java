@@ -3,6 +3,7 @@ package al.edu.cit.store.models;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -21,4 +22,12 @@ public class Book {
     private Integer pages;
     private String publisher;
     private String language;
+
+    private Visibility visibility;
+
+    @ManyToMany
+    private List<BookCollection> collections;
+
+    @ManyToMany
+    private List<Genre> categories;
 }

@@ -51,6 +51,11 @@ const BookForm = ({show, close, addBook, updating, updateBook, currentBook}) => 
             </Modal.Header>
             <Modal.Body>
                 <Form.Group >
+                    <Form.Label>ISBN: </Form.Label>
+                    <Form.Control type="text" onChange={handleChangeIsbn} value={book.isbn} />
+                </Form.Group>
+
+                <Form.Group >
                     <Form.Label>Title: </Form.Label>
                     <Form.Control type="text" onChange={handleChangeTitle} value={book.title} />
                 </Form.Group>
@@ -79,7 +84,6 @@ const BookForm = ({show, close, addBook, updating, updateBook, currentBook}) => 
                     <Form.Label>Publisher: </Form.Label>
                     <Form.Control type="text" onChange={handleChangePublisher} value={book.publisher} />
                 </Form.Group>
-
             </Modal.Body>
 
             <Modal.Footer>

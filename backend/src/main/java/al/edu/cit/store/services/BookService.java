@@ -3,6 +3,7 @@ package al.edu.cit.store.services;
 import al.edu.cit.store.exceptions.BookNotFoundException;
 import al.edu.cit.store.models.Book;
 import al.edu.cit.store.repositories.BookRepository;
+import javassist.tools.web.BadHttpRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,7 +31,10 @@ public class BookService {
         }
     }
 
-    public Book createBook(Book book) {
+    public Book createBook(Book book) throws BadHttpRequest {
+        if (book.getIsbn().length() < 13)
+            throw new BadHttpRequest();
+
         return bookRepository.save(book);
     }
 

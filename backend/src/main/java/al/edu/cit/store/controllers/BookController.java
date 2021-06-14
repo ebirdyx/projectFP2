@@ -3,6 +3,7 @@ package al.edu.cit.store.controllers;
 import al.edu.cit.store.exceptions.BookNotFoundException;
 import al.edu.cit.store.models.Book;
 import al.edu.cit.store.services.BookService;
+import javassist.tools.web.BadHttpRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class BookController {
     }
 
     @PostMapping("/books")
-    public Book createBook(@RequestBody Book book) {
+    public Book createBook(@RequestBody Book book) throws BadHttpRequest {
         return bookService.createBook(book);
     }
 

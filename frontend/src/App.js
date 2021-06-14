@@ -1,9 +1,8 @@
 import React from "react";
 import './App.css';
-import ProductPage from "./components/products/ProductPage";
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import BookPage from "./components/books/BookPage";
-import {Container, Image, Nav, Navbar} from "react-bootstrap";
+import {Container, Nav, Navbar} from "react-bootstrap";
 import CollectionPage from "./components/collections/CollectionPage";
 
 const App = () => {
@@ -16,9 +15,7 @@ const App = () => {
                   <Nav className="me-auto">
                       <Nav.Link href="/">Home</Nav.Link>
                       <Nav.Link href="/books">Books</Nav.Link>
-                      <Nav.Link href="/products">Products</Nav.Link>
                       <Nav.Link href="/collections">Collections</Nav.Link>
-
                   </Nav>
               </Container>
           </Navbar>
@@ -28,12 +25,8 @@ const App = () => {
                 <CollectionPage />
             </Route>
 
-            <Route path='/books'>
-                <BookPage />
-            </Route>
-
             <Route path='/'>
-                <ProductPage />
+                <BookPage />
             </Route>
         </Switch>
       </div>

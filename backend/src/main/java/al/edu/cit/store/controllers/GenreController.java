@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CrossOrigin
 @RestController
+@CrossOrigin
 public class GenreController {
     GenreService genreService;
     ModelMapper modelMapper;
@@ -28,6 +28,8 @@ public class GenreController {
 
         return genres
                 .stream()
+                // modelMapper maps objects from source genre
+                // to new objects instantiated from class GenreDto
                 .map(genre -> modelMapper.map(genre, GenreDto.class))
                 .collect(Collectors.toList());
     }

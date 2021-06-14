@@ -1,5 +1,5 @@
 import Button from "react-bootstrap/Button";
-import CollectionForm from "./BookForm";
+import CollectionForm from "../books/BookForm";
 import CollectionsTable from "./CollectionsTable";
 import React, {useEffect, useState} from "react";
 import axios from "axios";

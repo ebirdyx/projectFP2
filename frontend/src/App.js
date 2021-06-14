@@ -1,10 +1,10 @@
 import React from "react";
 import './App.css';
-import ProductPage from "./components/ProductPage";
+import ProductPage from "./components/products/ProductPage";
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import BookPage from "./components/BookPage";
+import BookPage from "./components/books/BookPage";
 import {Container, Image, Nav, Navbar} from "react-bootstrap";
-import CollectionPage from "./components/CollectionPage";
+import CollectionPage from "./components/collections/CollectionPage";
 
 const App = () => {
   return (

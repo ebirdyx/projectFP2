@@ -1,12 +1,12 @@
-package al.edu.cit.store.repositories;
-import al.edu.cit.store.models.BookCollection;
-import org.springframework.data.jpa.repository.JpaRepository;
+package al.edu.cit.store.bookcollection;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-
+@Repository
 public interface CollectionRepository extends JpaRepository<BookCollection, Long> {
     @Override
     List<BookCollection> findAll();

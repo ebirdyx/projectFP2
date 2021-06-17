@@ -1,8 +1,7 @@
-package al.edu.cit.store.services;
+package al.edu.cit.store.bookcollection;
 
 import al.edu.cit.store.exceptions.CollectionNotFoundException;
-import al.edu.cit.store.models.BookCollection;
-import al.edu.cit.store.repositories.CollectionRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,12 +9,10 @@ import java.util.Optional;
 
 
 @Service
+@AllArgsConstructor
 public class CollectionService {
-    private CollectionRepository collectionRepository;
 
-    public CollectionService(CollectionRepository collectionRepository) {
-        this.collectionRepository = collectionRepository;
-    }
+    private final CollectionRepository collectionRepository;
 
     public List<BookCollection> getCollection() {
         return collectionRepository.findAll();

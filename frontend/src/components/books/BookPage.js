@@ -16,7 +16,7 @@ const BookPage = () => {
     const hasBooks = books.length > 0
 
     useEffect(() => {
-        axios.get('http://localhost:8080/books')
+        axios.get('http://localhost:8080/api/v1/books')
             .then((response) => {
                 setBooks(response.data)
             })
@@ -24,7 +24,7 @@ const BookPage = () => {
                 console.log(err)
             })
 
-        axios.get('http://localhost:8080/genres')
+        axios.get('http://localhost:8080/api/v1/genres')
           .then((response) => {
               setGenres(response.data)
           })

@@ -1,42 +1,42 @@
-package al.edu.cit.store.controllers;
+package al.edu.cit.store.bookcollection;
 
 import al.edu.cit.store.exceptions.CollectionNotFoundException;
-import al.edu.cit.store.models.BookCollection;
-import al.edu.cit.store.services.CollectionService;
+import al.edu.cit.store.bookcollection.BookCollection;
+import al.edu.cit.store.bookcollection.CollectionService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @CrossOrigin
+@AllArgsConstructor
+@RequestMapping(path = "/api/v1/collections")
 public class CollectionController {
-    private CollectionService collectionService;
 
-    public CollectionController(CollectionService collectionService) {
-        this.collectionService = collectionService;
-    }
+    private final CollectionService collectionService;
 
-    @GetMapping("/collections")
+    @GetMapping
     public List<BookCollection> getCollections() {
         return collectionService.getCollection();
     }
 
-    @GetMapping("/collections/{id}")
+    @GetMapping("{id}")
     public BookCollection getBookCollection(@PathVariable Long id) throws CollectionNotFoundException {
         return collectionService.getCollection(id);
     }
 
-    @DeleteMapping("/collections/{id}")
+    @DeleteMapping("{id}")
     public void deleteBookCollection(@PathVariable Long id) throws CollectionNotFoundException {
         collectionService.deleteCollection(id);
     }
 
-    @PostMapping("/collections")
+    @PostMapping
     public BookCollection createBookCollection(@RequestBody BookCollection collection) {
         return collectionService.createCollection(collection);
     }
 
-    @PatchMapping("/collections/{id}")
+    @PatchMapping("{id}")
     public BookCollection updateBookCollection(@PathVariable Long id, @RequestBody BookCollection collection) throws CollectionNotFoundException {
         return collectionService.updateCollection(id, collection);
     }

@@ -1,10 +1,11 @@
-package al.edu.cit.store.repositories;
+package al.edu.cit.store.genre;
 
-import al.edu.cit.store.models.Genre;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface GenreRepository extends JpaRepository<Genre, Long> {
 
     @Override

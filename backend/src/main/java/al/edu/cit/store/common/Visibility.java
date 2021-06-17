@@ -1,4 +1,4 @@
-package al.edu.cit.store.models;
+package al.edu.cit.store.common;
 
 public enum Visibility {
     Public,

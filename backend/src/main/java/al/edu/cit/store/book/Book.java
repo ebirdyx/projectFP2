@@ -1,5 +1,8 @@
-package al.edu.cit.store.models;
+package al.edu.cit.store.book;
 
+import al.edu.cit.store.bookcollection.BookCollection;
+import al.edu.cit.store.genre.Genre;
+import al.edu.cit.store.common.Visibility;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -23,6 +26,7 @@ public class Book {
     private String publisher;
     private String language;
 
+    @Enumerated(EnumType.STRING)
     private Visibility visibility;
 
     @ManyToMany

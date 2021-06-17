@@ -1,0 +1,16 @@
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/projectfp2db
+    username: projectfp2user
+    password: jGFlYwDvz3XA+Yg9
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+

@@ -1,11 +1,12 @@
-package al.edu.cit.store.repositories;
+package al.edu.cit.store.book;
 
-import al.edu.cit.store.models.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
 
     @Override

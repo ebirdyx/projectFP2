@@ -1,21 +1,18 @@
-package al.edu.cit.store.services;
+package al.edu.cit.store.book;
 
 import al.edu.cit.store.exceptions.BookNotFoundException;
-import al.edu.cit.store.models.Book;
-import al.edu.cit.store.repositories.BookRepository;
 import javassist.tools.web.BadHttpRequest;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class BookService {
-    private BookRepository bookRepository;
 
-    public BookService(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
-    }
+    private final BookRepository bookRepository;
 
     public List<Book> getBooks() {
         return bookRepository.findAll();

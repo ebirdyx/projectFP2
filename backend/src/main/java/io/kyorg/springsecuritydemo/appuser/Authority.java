@@ -24,4 +24,11 @@ public class Authority implements GrantedAuthority {
     public String getAuthority() {
         return appUserRole.toString();
     }
+
+    public static Authority createAuthority(AppUserRole role, String description) {
+        Authority authority = new Authority();
+        authority.setAppUserRole(role);
+        authority.setRoleDescription(description);
+        return authority;
+    }
 }

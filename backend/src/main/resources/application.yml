@@ -16,3 +16,5 @@ jwt:
     secret:
       key: jd5qheflLRjNPGVq6HtVvP+/Qd0QG2t7QkW6cua1WXp3vzUl
     expires_in: 3600
+
+#debug: true

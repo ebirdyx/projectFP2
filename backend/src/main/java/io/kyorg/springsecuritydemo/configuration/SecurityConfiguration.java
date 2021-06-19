@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -24,34 +23,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final AppUserService appUserService;
     private final JwtTokenHelper jwtTokenHelper;
     private final RestAuthEntryPoint restAuthEntryPoint;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // in-memory auth
-        auth.inMemoryAuthentication()
-                .withUser("Imad")
-                .password(passwordEncoder().encode("123"))
-                .authorities("USER", "ADMIN");
-
-        // database auth
-        auth.userDetailsService(appUserService).passwordEncoder(passwordEncoder());
+        auth
+                .userDetailsService(appUserService)
+                .passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // authorize all
-        //http.authorizeRequests().anyRequest().permitAll();
-
-        // authorize authenticated
-        //http.authorizeRequests().anyRequest().authenticated();
-
-        //http.authorizeRequests(
-        //        request -> request.antMatchers("/h2-console/**")
-        //                .permitAll()
-        //                .anyRequest()
-        //                .authenticated()
-        //).httpBasic();
-
         http
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -60,7 +42,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .authenticationEntryPoint(restAuthEntryPoint)
                 .and()
                 .authorizeRequests(
-                        request -> request.antMatchers("/h2-console/**", "/api/v1/auth/login")
+                        request -> request.antMatchers(
+                                "/h2-console/**",
+                                "/api/v1/auth/login",
+                                "/api/v1/auth/register"
+                        )
                                 .permitAll()
                                 .antMatchers(HttpMethod.OPTIONS, "/**")
                                 .permitAll()
@@ -93,8 +79,4 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         super.configure(web);
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 }

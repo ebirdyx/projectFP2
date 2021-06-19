@@ -17,7 +17,7 @@ import java.security.Principal;
 import java.security.spec.InvalidKeySpecException;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/auth")
 @CrossOrigin
 @AllArgsConstructor
 public class AuthenticationController {
@@ -26,7 +26,7 @@ public class AuthenticationController {
     private final JwtTokenHelper jwtTokenHelper;
     private final AppUserService appUserService;
 
-    @PostMapping("/auth/login")
+    @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthenticationRequest request)
             throws InvalidKeySpecException, NoSuchAlgorithmException {
 
@@ -45,7 +45,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/auth/userinfo")
+    @GetMapping("/userinfo")
     public ResponseEntity<?> getUserInfo(Principal principal) {
         AppUser user = (AppUser) appUserService.loadUserByUsername(principal.getName());
 
@@ -54,6 +54,26 @@ public class AuthenticationController {
         response.setLastName(user.getLastName());
         response.setUsername(user.getUsername());
         response.setRoles(user.getAuthorities().toArray());
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> registerUser(@RequestBody RegistrationRequest request) {
+        AppUser user = new AppUser();
+        user.setUsername(request.getUsername());
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+
+        AppUser createdUser = appUserService.createUser(user);
+
+        AppUserResponse response = new AppUserResponse();
+        response.setFirstName(createdUser.getFirstName());
+        response.setLastName(createdUser.getLastName());
+        response.setUsername(createdUser.getUsername());
+        response.setRoles(createdUser.getAuthorities().toArray());
 
         return ResponseEntity.ok(response);
     }

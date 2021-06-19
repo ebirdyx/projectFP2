@@ -1,16 +1,18 @@
-server:
-  error:
-    include-message: always
-    include-binding-errors: always
-  port: 8080
+# spring security user/40c221ae-03dd-46ac-9b6e-e09194a1462c
 
 spring:
+  devtools:
+    livereload:
+      enabled: true
+  h2:
+    console:
+      enabled: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/projectfp2db
-    username: projectfp2user
-    password: jGFlYwDvz3XA+Yg9
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: create-drop
+    url: jdbc:h2:mem:288d7264-f462-4d16-a6fc-c388984ed493
 
+jwt:
+  auth:
+    app: SpringSecurityDemo
+    secret:
+      key: jd5qheflLRjNPGVq6HtVvP+/Qd0QG2t7QkW6cua1WXp3vzUl
+    expires_in: 3600

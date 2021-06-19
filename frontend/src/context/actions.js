@@ -1,4 +1,5 @@
 import UserApi from "../api/user";
+import axios from "axios";
 
 export async function loginUser(dispatch, username, password) {
   try {
@@ -9,6 +10,12 @@ export async function loginUser(dispatch, username, password) {
     if (data.token) {
       dispatch({ type: 'LOGIN_SUCCESS', payload: data });
       localStorage.setItem('currentUser', JSON.stringify(data));
+
+      axios.interceptors.request.use(function (config) {
+        config.headers.Authorization = `Bearer ${data.token}`
+        return config
+      })
+
       return data
     }
 

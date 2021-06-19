@@ -5,6 +5,7 @@ import {useAuthState} from "./context";
 const AppRoute = ({ component: Component, path, isPrivate, ...rest }) => {
 
   const userDetails = useAuthState()
+
   return (
     <Route
       path={path}

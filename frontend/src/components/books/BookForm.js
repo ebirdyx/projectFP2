@@ -7,34 +7,6 @@ import Form from "react-bootstrap/Form";
 const BookForm = ({show, close, addBook, updating, updateBook, currentBook}) => {
     const [book, setBook] = useState({})
 
-    const handleChangeTitle = (event) => {
-        setBook({...book, title: event.target.value})
-    }
-
-    const handleChangeDescription = (event) => {
-        setBook({...book, description: event.target.value})
-    }
-
-    const handleChangeAuthor = (event) => {
-        setBook({...book, author: event.target.value})
-    }
-
-    const handleChangeLanguage = (event) => {
-        setBook({...book, language: event.target.value})
-    }
-
-    const handleChangePages = (event) => {
-        setBook({...book, pages: event.target.value})
-    }
-
-    const handleChangePublisher = (event) => {
-        setBook({...book, publisher: event.target.value})
-    }
-
-    const handleChangeIsbn = (event) => {
-        setBook({...book, isbn: event.target.value})
-    }
-
     useEffect(() => {
         setBook(currentBook)
     }, [currentBook])
@@ -52,37 +24,65 @@ const BookForm = ({show, close, addBook, updating, updateBook, currentBook}) => 
             <Modal.Body>
                 <Form.Group >
                     <Form.Label>ISBN: </Form.Label>
-                    <Form.Control type="text" onChange={handleChangeIsbn} value={book.isbn} />
+                    <Form.Control
+                      type="text"
+                      onChange={(e) => setBook({...book, isbn: e.target.value})}
+                      value={book.isbn}
+                    />
                 </Form.Group>
 
                 <Form.Group >
                     <Form.Label>Title: </Form.Label>
-                    <Form.Control type="text" onChange={handleChangeTitle} value={book.title} />
+                    <Form.Control
+                      type="text"
+                      onChange={(e) => setBook({...book, title: e.target.value})}
+                      value={book.title}
+                    />
                 </Form.Group>
 
                 <Form.Group >
                     <Form.Label>Description: </Form.Label>
-                    <Form.Control type="text" onChange={handleChangeDescription} value={book.description} />
+                    <Form.Control
+                      type="text"
+                      onChange={(e) => setBook({...book, description: e.target.value})}
+                      value={book.description}
+                    />
                 </Form.Group>
 
                 <Form.Group >
-                    <Form.Label>Author: </Form.Label>
-                    <Form.Control type="text" onChange={handleChangeAuthor} value={book.author} />
+                    <Form.Label>Image URL: </Form.Label>
+                    <Form.Control
+                      type="text"
+                      onChange={(e) => setBook({...book, imageUrl: e.target.value})}
+                      value={book.author}
+                    />
                 </Form.Group>
 
                 <Form.Group >
                     <Form.Label>Language: </Form.Label>
-                    <Form.Control type="text" onChange={handleChangeLanguage} value={book.language} />
+                    <Form.Control
+                      type="text"
+                      onChange={(e) => setBook({...book, language: e.target.value})}
+                      value={book.language}
+                    />
                 </Form.Group>
 
                 <Form.Group >
-                    <Form.Label>Pages: </Form.Label>
-                    <Form.Control type="number" onChange={handleChangePages} value={book.pages} />
+                    <Form.Label>Number of pages: </Form.Label>
+                    <Form.Control
+                      type="number"
+                      onChange={(e) => setBook({...book, numPages: e.target.value})}
+                      value={book.pages}
+                    />
                 </Form.Group>
 
                 <Form.Group >
                     <Form.Label>Publisher: </Form.Label>
-                    <Form.Control type="text" onChange={handleChangePublisher} value={book.publisher} />
+                    <Form.Control
+                      type="text"
+                      onChange={(e) => setBook({...book, publisher: e.target.value})}
+                      value={book.publisher}
+                    />
                 </Form.Group>
             </Modal.Body>
 

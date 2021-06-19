@@ -3,12 +3,10 @@ import Form from "react-bootstrap/Form";
 import BookForm from "./BookForm";
 import BooksTable from "./BooksTable";
 import React, {useEffect, useState} from "react";
-import axios from "axios";
-import {Dropdown} from "react-bootstrap";
+import BookApi from "../../api/book";
 
 const BookPage = () => {
     const [books, setBooks] = useState([])
-    const [genres, setGenres] = useState([])
     const [showBookForm, setShowBookForm] = useState(false)
     const [updating, setUpdating] = useState(false)
     const [updatingBook, setUpdatingBook] = useState({})
@@ -16,33 +14,21 @@ const BookPage = () => {
     const hasBooks = books.length > 0
 
     useEffect(() => {
-        axios.get('http://localhost:8080/api/v1/books')
-            .then((response) => {
-                setBooks(response.data)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-
-        axios.get('http://localhost:8080/api/v1/genres')
-          .then((response) => {
-              setGenres(response.data)
-          })
-          .catch((err) => {
-              console.log(err)
-          })
+        BookApi.get()
+          .then(res => setBooks(res.data))
+          .catch(err => console.log(err))
     }, [])
 
     const handleAddBook = (book) => {
         setShowBookForm(false)
 
-        axios.post('http://localhost:8080/books', book)
-            .then((res) => setBooks([...books, res.data]))
-            .catch((err) => console.log(err))
+        BookApi.create(book)
+          .then(res => setBooks([...books, res.data]))
+          .catch(err => console.log(err))
     }
 
     const handleDeleteBook = (id) => {
-        axios.delete(`http://localhost:8080/books/${id}`)
+        BookApi.delete(id)
             .then(() => setBooks(books.filter(p => p.id !== id)))
             .catch((err) => console.log(err))
     }
@@ -67,9 +53,9 @@ const BookPage = () => {
         setShowBookForm(false)
         setUpdating(false)
 
-        axios.patch(`http://localhost:8080/books/${book.id}`, book)
-            .then((res) =>
-                setBooks([...books.filter(p => p.id !== book.id), res.data]))
+        BookApi.update(book.id, book)
+            .then(res =>
+              setBooks([...books.filter(p => p.id !== book.id), res.data]))
             .catch((err) => console.log(err))
     }
 
@@ -82,19 +68,6 @@ const BookPage = () => {
                 />
 
                 <Button variant="primary" onClick={handleOpenAddBookForm}>Add</Button>
-
-                <Dropdown>
-                    <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                        Genres
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                        {genres.map(genre => (
-                          <Dropdown.Item key={genre.id}
-                          >{genre.name}</Dropdown.Item>
-                        ))}
-                    </Dropdown.Menu>
-                </Dropdown>
             </div>
 
             <BookForm

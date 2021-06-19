@@ -12,8 +12,7 @@ const BooksTable = ({books, deleteBook, updateBook}) => {
                 <th>isbn</th>
                 <th>Title</th>
                 <th>Description</th>
-                <th>Author</th>
-                <th>Pages</th>
+                <th>Number of pages</th>
                 <th>Publisher</th>
                 <th>Language</th>
                 <th>Actions</th>
@@ -27,8 +26,7 @@ const BooksTable = ({books, deleteBook, updateBook}) => {
                     <td>{book.isbn}</td>
                     <td>{book.title}</td>
                     <td>{book.description}</td>
-                    <td>{book.author}</td>
-                    <td>{book.pages}</td>
+                    <td>{book.numPages}</td>
                     <td>{book.publisher}</td>
                     <td>{book.language}</td>
                     <td>

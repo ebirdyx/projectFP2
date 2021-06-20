@@ -11,4 +11,5 @@ public class BookRequest {
     private String language;
     private Integer numPages;
     private String publisher;
+    private Integer yearOfPublication;
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import './App.css';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
-import Menu from "./components/Menu";
+import Menu from "./components/menu/Menu";
 import routes from "./routes/routes";
 import {AuthProvider} from "./context";
 import AppRoute from "./AppRoute";

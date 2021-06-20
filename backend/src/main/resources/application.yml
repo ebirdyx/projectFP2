@@ -1,18 +1,29 @@
 # spring security user/40c221ae-03dd-46ac-9b6e-e09194a1462c
+# reference: https://developer.okta.com/blog/2018/12/13/build-basic-app-spring-boot-jpa
 
 spring:
   devtools:
     livereload:
       enabled: true
-  h2:
-    console:
-      enabled: true
   datasource:
-    url: jdbc:h2:mem:288d7264-f462-4d16-a6fc-c388984ed493
+    url: jdbc:postgresql://localhost:5432/projectfp2db
+    username: postgres
+    password: JoEig55gUY6lTPF
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  session:
+    jdbc:
+      initialize-schema: always
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 jwt:
   auth:
-    app: SpringSecurityDemo
+    app: BookShare
     secret:
       key: jd5qheflLRjNPGVq6HtVvP+/Qd0QG2t7QkW6cua1WXp3vzUl
     expires_in: 3600

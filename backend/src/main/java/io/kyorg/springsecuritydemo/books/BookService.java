@@ -1,8 +1,12 @@
 package io.kyorg.springsecuritydemo.books;
 
+import io.kyorg.springsecuritydemo.storage.StorageService;
 import javassist.tools.web.BadHttpRequest;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +16,8 @@ import java.util.Optional;
 public class BookService {
 
     private final BookRepository bookRepository;
+    private final ModelMapper mapper;
+    private final StorageService storageService;
 
     public List<Book> getBooks() {
         return bookRepository.findAll();
@@ -44,18 +50,39 @@ public class BookService {
     public Book updateBook(Long id, Book book) throws BookNotFoundException {
         Optional<Book> oldBook = bookRepository.findById(id);
         if (oldBook.isPresent()) {
-            Book old = oldBook.get();
-
-            old.setIsbn(book.getIsbn());
-            old.setDescription(book.getDescription());
-            old.setTitle(book.getTitle());
-            old.setLanguage(book.getLanguage());
-            old.setNumPages(book.getNumPages());
-            old.setPublisher(book.getPublisher());
-
-            return bookRepository.save(old);
+            Book updatedBook = mapper.map(book, Book.class);
+            updatedBook.setId(oldBook.get().getId());
+            return bookRepository.save(updatedBook);
         } else {
             throw new BookNotFoundException();
         }
+    }
+
+    public Book store(Long bookId, MultipartFile content) throws BookNotFoundException {
+        Optional<Book> item = bookRepository.findById(bookId);
+
+        if (item.isEmpty())
+            throw new BookNotFoundException();
+
+        // remove old book if exist
+        Book book = item.get();
+        if (book.getFileName() != null)
+            storageService.deleteFile(book.getFileName());
+
+        // save new book to disk
+        storageService.save(content);
+
+        // update book filename inside book
+        book.setFileName(content.getOriginalFilename());
+        return bookRepository.save(book);
+    }
+
+    public Resource load(Long bookId) throws BookNotFoundException {
+        Optional<Book> item = bookRepository.findById(bookId);
+
+        if (item.isEmpty())
+            throw new BookNotFoundException();
+
+        return storageService.load(item.get().getFileName());
     }
 }

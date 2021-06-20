@@ -12,4 +12,6 @@ public class BookResponse {
     private String language;
     private Integer numPages;
     private String publisher;
+    private Integer yearOfPublication;
+    private String fileName;
 }

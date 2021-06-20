@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form";
 
 const BookForm = ({show, close, addBook, updating, updateBook, currentBook}) => {
     const [book, setBook] = useState({})
+    const [selectedFile, setSelectedFile] = useState(null);
 
     useEffect(() => {
         setBook(currentBook)
@@ -41,9 +42,18 @@ const BookForm = ({show, close, addBook, updating, updateBook, currentBook}) => 
                 </Form.Group>
 
                 <Form.Group >
-                    <Form.Label>Description: </Form.Label>
+                    <Form.Label>Year of publication: </Form.Label>
                     <Form.Control
                       type="text"
+                      onChange={(e) => setBook({...book, yearOfPublication: e.target.value})}
+                      value={book.yearOfPublication}
+                    />
+                </Form.Group>
+
+                <Form.Group >
+                    <Form.Label>Description: </Form.Label>
+                    <Form.Control
+                      as="textarea"
                       onChange={(e) => setBook({...book, description: e.target.value})}
                       value={book.description}
                     />
@@ -54,7 +64,7 @@ const BookForm = ({show, close, addBook, updating, updateBook, currentBook}) => 
                     <Form.Control
                       type="text"
                       onChange={(e) => setBook({...book, imageUrl: e.target.value})}
-                      value={book.author}
+                      value={book.imageUrl}
                     />
                 </Form.Group>
 
@@ -72,7 +82,7 @@ const BookForm = ({show, close, addBook, updating, updateBook, currentBook}) => 
                     <Form.Control
                       type="number"
                       onChange={(e) => setBook({...book, numPages: e.target.value})}
-                      value={book.pages}
+                      value={book.numPages}
                     />
                 </Form.Group>
 
@@ -84,6 +94,20 @@ const BookForm = ({show, close, addBook, updating, updateBook, currentBook}) => 
                       value={book.publisher}
                     />
                 </Form.Group>
+
+                <Form.Group >
+                    <Form.Label>
+                        {book.fileName ?
+                            <span>Uploaded: {book.fileName}</span> :
+                            <span>Upload: </span>
+                        }
+                    </Form.Label>
+                    <Form.Control
+                      className="mt-2"
+                      type="file"
+                      onChange={(e) => setSelectedFile(e.target.files[0])}
+                    />
+                </Form.Group>
             </Modal.Body>
 
             <Modal.Footer>
@@ -91,12 +115,12 @@ const BookForm = ({show, close, addBook, updating, updateBook, currentBook}) => 
                     Cancel
                 </Button>
                 {updating &&
-                <Button variant="primary" type='submit' onClick={() => updateBook(book)}>
+                <Button variant="primary" type='submit' onClick={() => updateBook(book, selectedFile)}>
                     Save
                 </Button>
                 }
                 {!updating &&
-                <Button variant="primary" type='submit' onClick={() => addBook(book)}>
+                <Button variant="primary" type='submit' onClick={() => addBook(book, selectedFile)}>
                     Create
                 </Button>
                 }

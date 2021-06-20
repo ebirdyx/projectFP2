@@ -24,12 +24,12 @@ public class AppUserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AppUser user = appUserRepository.findByUsername(username);
+        Optional<AppUser> user = appUserRepository.findByUsername(username);
 
-        if (user == null)
+        if (user.isEmpty())
             throw new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, username));
 
-        return user;
+        return user.get();
     }
 
     public AppUser createUser(AppUser user) {
@@ -40,7 +40,7 @@ public class AppUserService implements UserDetailsService {
 
         appUserRepository.save(user);
 
-        return appUserRepository.findByUsername(user.getUsername());
+        return appUserRepository.findByUsername(user.getUsername()).get();
     }
 
     public Authority getUserAuthority() {
@@ -50,6 +50,10 @@ public class AppUserService implements UserDetailsService {
 
     @PostConstruct
     protected void initUsers() {
+        Optional<AppUser> adminExist = appUserRepository.findByUsername("admin");
+        if (adminExist.isPresent())
+            return;
+
         Authority adminAuthority = Authority.createAuthority(AppUserRole.ADMIN, "Admin role");
 
         AppUser admin = createUser(

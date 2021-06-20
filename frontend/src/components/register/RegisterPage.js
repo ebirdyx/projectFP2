@@ -45,7 +45,7 @@ const RegisterPage = () => {
         </div>
         <div className="form-group">
           <input
-            type="text"
+            type="email"
             className="form-control"
             placeholder="email"
             required="required"

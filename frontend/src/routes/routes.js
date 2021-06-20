@@ -2,6 +2,7 @@ import BookPage from "../components/books/BookPage";
 import LoginPage from "../components/login/LoginPage";
 import PageNotFound from "../components/PageNotFound";
 import RegisterPage from "../components/register/RegisterPage";
+import UserProfile from "../components/profile/UserProfile";
 
 const routes =[
   {
@@ -17,6 +18,11 @@ const routes =[
   {
     path:'/books',
     component: BookPage,
+    isPrivate: true
+  },
+  {
+    path:'/profile',
+    component: UserProfile,
     isPrivate: true
   },
   {

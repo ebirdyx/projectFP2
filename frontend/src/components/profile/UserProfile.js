@@ -17,6 +17,10 @@ const UserProfile = () => {
 
   return (
     <div className="container mt-xl-5">
+      <div className="text-left mb-2">
+        <a href="/books">Go back</a>
+      </div>
+
       <div className="row">
         <div className="col border">
           <img

@@ -26,7 +26,7 @@ const BookPage = () => {
             book => book.title.toLowerCase().includes(search.toLowerCase())
           )
         )
-    }, [search])
+    }, [search, books])
 
     useEffect(() => {
         BookApi.get()

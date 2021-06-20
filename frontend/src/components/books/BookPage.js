@@ -1,5 +1,4 @@
 import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
 import BookForm from "./BookForm";
 import BooksTable from "./BooksTable";
 import React, {useEffect, useState} from "react";
@@ -8,17 +7,33 @@ import BookDetails from "./BookDetails";
 
 const BookPage = () => {
     const [books, setBooks] = useState([])
+    const [filteredBooks, setFilteredBooks] = useState([])
     const [showBookForm, setShowBookForm] = useState(false)
     const [showBookDetails, setShowBookDetails] = useState(false)
     const [detailBook, setDetailBook] = useState({})
     const [updating, setUpdating] = useState(false)
     const [updatingBook, setUpdatingBook] = useState({})
+    const [search, setSearch] = useState("")
 
     const hasBooks = books.length > 0
 
     useEffect(() => {
+      if (search.length === 0)
+        setFilteredBooks(books)
+      else
+        setFilteredBooks(
+          books.filter(
+            book => book.title.toLowerCase().includes(search.toLowerCase())
+          )
+        )
+    }, [search])
+
+    useEffect(() => {
         BookApi.get()
-          .then(res => setBooks(res.data))
+          .then(res => {
+            setBooks(res.data)
+            setFilteredBooks(res.data)
+          })
           .catch(err => console.log(err))
     }, [])
 
@@ -91,12 +106,22 @@ const BookPage = () => {
     return (
         <div>
             <div>
-                <Form.Control
-                  type="text"
-                  placeholder="Search..."
-                />
+              <div className="form-group row justify-content-center mt-lg-5 mb-4">
+                <div className="col-xl-5">
+                  <input
+                    type="text"
+                    placeholder="search..."
+                    className="form-control"
+                    onChange={(e) => setSearch(e.target.value)}
+                  />
+                </div>
 
-                <Button variant="primary" onClick={handleOpenAddBookForm}>Add</Button>
+                <Button
+                  className="ml-lg-4"
+                  variant="primary"
+                  onClick={handleOpenAddBookForm}
+                >Create new book</Button>
+              </div>
             </div>
 
             <BookForm
@@ -116,8 +141,8 @@ const BookPage = () => {
 
             {hasBooks &&
             <BooksTable
-                books={books}
-                deleteBooks={handleDeleteBook}
+                books={filteredBooks}
+                deleteBook={handleDeleteBook}
                 updateBook={handleOpenUpdateBookForm}
                 detailBook={handleOpenDetailsBook}
             />

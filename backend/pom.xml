@@ -8,11 +8,11 @@
         <version>2.5.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>io.kyorg</groupId>
-    <artifactId>SpringSecurityDemo</artifactId>
+    <groupId>bookshare</groupId>
+    <artifactId>BookShare</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>SpringSecurityDemo</name>
-    <description>Demo project for Spring Boot</description>
+    <name>BookShare</name>
+    <description>Book sharing app</description>
     <properties>
         <java.version>11</java.version>
         <repackage.classifier/>

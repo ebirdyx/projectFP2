@@ -2,6 +2,7 @@ import React from "react";
 
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
+import BookItem from "./BookItem";
 
 const BooksTable = ({books, deleteBook, updateBook}) => {
     return (

@@ -34,6 +34,12 @@ export async function loginUser(dispatch, username, password) {
 
 export async function logout(dispatch) {
   dispatch({ type: 'LOGOUT' });
+
+  axios.interceptors.request.use(function (config) {
+    config.headers.Authorization = ''
+    return config
+  })
+
   localStorage.removeItem('currentUser');
   localStorage.removeItem('token');
 }

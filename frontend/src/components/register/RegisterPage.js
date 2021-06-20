@@ -1,7 +1,8 @@
-import './RegisterPage.css'
 import {useState} from "react";
 import UserApi from "../../api/user";
 import {useHistory} from "react-router-dom";
+
+import './RegisterPage.css'
 
 const RegisterPage = () => {
   const history = useHistory()

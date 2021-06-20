@@ -4,6 +4,7 @@ import BookForm from "./BookForm";
 import BooksTable from "./BooksTable";
 import React, {useEffect, useState} from "react";
 import BookApi from "../../api/book";
+import BookItem from "./BookItem";
 
 const BookPage = () => {
     const [books, setBooks] = useState([])
@@ -86,6 +87,8 @@ const BookPage = () => {
                 updateBook={handleOpenUpdateBookForm}
             />
             }
+
+            <BookItem />
         </div>
     )
 }

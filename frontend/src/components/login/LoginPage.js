@@ -1,7 +1,8 @@
-import './LoginPage.css'
 import {useState} from "react";
 import {loginUser, useAuthDispatch} from "../../context";
 import {useHistory} from 'react-router-dom';
+
+import './LoginPage.css'
 
 const LoginPage = () => {
   const dispatch = useAuthDispatch()
@@ -14,7 +15,7 @@ const LoginPage = () => {
     e.preventDefault()
 
     const response = await loginUser(dispatch, username, password)
-    if (response.token)
+    if (response?.token)
       history.push("/books")
   }
 

@@ -5,6 +5,7 @@ import io.kyorg.springsecuritydemo.appuser.AppUserResponse;
 import io.kyorg.springsecuritydemo.appuser.AppUserService;
 import io.kyorg.springsecuritydemo.configuration.JwtTokenHelper;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,6 +26,7 @@ public class AuthenticationController {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenHelper jwtTokenHelper;
     private final AppUserService appUserService;
+    private final ModelMapper mapper;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthenticationRequest request)
@@ -49,32 +51,38 @@ public class AuthenticationController {
     public ResponseEntity<?> getUserInfo(Principal principal) {
         AppUser user = (AppUser) appUserService.loadUserByUsername(principal.getName());
 
-        AppUserResponse response = new AppUserResponse();
-        response.setFirstName(user.getFirstName());
-        response.setLastName(user.getLastName());
-        response.setUsername(user.getUsername());
-        response.setRoles(user.getAuthorities().toArray());
+//        AppUserResponse response = new AppUserResponse();
+//        response.setFirstName(user.getFirstName());
+//        response.setLastName(user.getLastName());
+//        response.setUsername(user.getUsername());
+//        response.setRoles(user.getAuthorities().toArray());
+//        response.setEmail(user.getEmail());
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(mapper.map(user, AppUserResponse.class));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody RegistrationRequest request) {
-        AppUser user = new AppUser();
-        user.setUsername(request.getUsername());
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
+    public ResponseEntity<?> registerUser(@RequestBody RegistrationRequest request)
+            throws IncorrectEmailFormatException {
 
-        AppUser createdUser = appUserService.createUser(user);
+        if (!request.getEmail().matches("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"))
+            throw new IncorrectEmailFormatException();
 
-        AppUserResponse response = new AppUserResponse();
-        response.setFirstName(createdUser.getFirstName());
-        response.setLastName(createdUser.getLastName());
-        response.setUsername(createdUser.getUsername());
-        response.setRoles(createdUser.getAuthorities().toArray());
+//        AppUser user = new AppUser();
+//        user.setUsername(request.getUsername());
+//        user.setFirstName(request.getFirstName());
+//        user.setLastName(request.getLastName());
+//        user.setEmail(request.getEmail());
+//        user.setPassword(request.getPassword());
 
-        return ResponseEntity.ok(response);
+        AppUser createdUser = appUserService.createUser(mapper.map(request, AppUser.class));
+
+//        AppUserResponse response = new AppUserResponse();
+//        response.setFirstName(createdUser.getFirstName());
+//        response.setLastName(createdUser.getLastName());
+//        response.setUsername(createdUser.getUsername());
+//        response.setRoles(createdUser.getAuthorities().toArray());
+
+        return ResponseEntity.ok(mapper.map(createdUser, AppUserResponse.class));
     }
 }

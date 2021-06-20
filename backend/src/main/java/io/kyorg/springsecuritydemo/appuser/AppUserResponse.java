@@ -8,4 +8,5 @@ public class AppUserResponse {
     private String firstName;
     private String lastName;
     private Object roles;
+    private String email;
 }

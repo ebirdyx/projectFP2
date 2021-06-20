@@ -1,5 +1,6 @@
-import UserApi from "../api/user";
 import axios from "axios";
+
+import UserApi from "../api/user";
 
 export async function loginUser(dispatch, username, password) {
   try {
@@ -18,12 +19,6 @@ export async function loginUser(dispatch, username, password) {
 
       return data
     }
-
-    // if (data.user) {
-    //   dispatch({ type: 'LOGIN_SUCCESS', payload: data });
-    //   localStorage.setItem('currentUser', JSON.stringify(data));
-    //   return data
-    // }
 
     dispatch({ type: 'LOGIN_ERROR', error: data.errors[0] });
     return;

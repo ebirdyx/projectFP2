@@ -19,7 +19,7 @@ const UserApi = () => {
       axios.post(`${API_URL}/api/v1/auth/register`, {
         username, firstName, lastName, email, password
       }),
-    profile: () => axios.get(`${API_URL}/api/v1/auth/userprofile`, defaultOptions)
+    profile: () => axios.get(`${API_URL}/api/v1/auth/userinfo`, defaultOptions)
   }
 }
 

@@ -18,7 +18,7 @@ const Menu = () => {
   return (
     <Navbar bg="dark" variant="dark">
       <Container>
-        <Navbar.Brand href="/">BookShare <AiFillHeart /></Navbar.Brand>
+        <Navbar.Brand href="/books">BookShare <AiFillHeart /></Navbar.Brand>
 
         {authState.token &&
         <Nav>

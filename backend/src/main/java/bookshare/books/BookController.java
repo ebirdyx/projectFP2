@@ -24,51 +24,87 @@ public class BookController {
 
     @GetMapping
     public ResponseEntity<List<BookResponse>> getBooks() {
-        return ResponseEntity.ok(bookService.getBooks()
+        // Get all the books from bookService
+        List<Book> books = bookService.getBooks();
+
+        // map the book list to a BookResponse list
+        List<BookResponse> response = books
                 .stream()
                 .map(book -> mapper.map(book, BookResponse.class))
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList());
+
+        // return the list of BookResponse
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getBook(@PathVariable Long id) throws BookNotFoundException {
-        return ResponseEntity.ok(mapper.map(bookService.getBook(id), BookResponse.class));
+    public ResponseEntity<BookResponse> getBook(@PathVariable Long id)
+            throws BookNotFoundException {
+
+        // search for the book with id => id
+        Book book = bookService.getBook(id);
+
+        // map the returned book to a BookResponse
+        BookResponse response = mapper.map(book, BookResponse.class);
+
+        // send the response
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteBook(@PathVariable Long id) throws BookNotFoundException {
+    public ResponseEntity<BookResponse> deleteBook(@PathVariable Long id)
+            throws BookNotFoundException {
+
+        // Call bookService to delete the book
         bookService.deleteBook(id);
+
+        // Return empty OK response
         return ResponseEntity.ok().build();
     }
 
     @PostMapping
-    public ResponseEntity<?> createBook(@RequestBody BookRequest bookRequest) throws BadHttpRequest {
-        Book newBook = bookService.createBook(mapper.map(bookRequest, Book.class));
-        return ResponseEntity.ok(mapper.map(newBook, BookResponse.class));
+    public ResponseEntity<BookResponse> createBook(@RequestBody BookRequest request)
+            throws BadHttpRequest {
+
+        // map a book from the request
+        Book bookRequest = mapper.map(request, Book.class);
+
+        // call bookService to create the book
+        Book createdBook = bookService.createBook(bookRequest);
+
+        // map a BookResponse from the created book
+        BookResponse response = mapper.map(createdBook, BookResponse.class);
+
+        return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> updateBook(@PathVariable Long id, @RequestBody BookRequest bookRequest)
+    public ResponseEntity<BookResponse> updateBook(@PathVariable Long id, @RequestBody BookRequest request)
             throws BookNotFoundException {
 
-        Book newBook = bookService.updateBook(id, mapper.map(bookRequest, Book.class));
-        return ResponseEntity.ok(mapper.map(newBook, BookResponse.class));
+        // map a book from the request
+        Book bookRequest = mapper.map(request, Book.class);
+
+        // call bookService to update the book with id
+        Book updatedBook = bookService.updateBook(id, bookRequest);
+
+        // map the updated book to an BookResponse
+        BookResponse response = mapper.map(updatedBook, BookResponse.class);
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/{bookId}/upload")
-    public ResponseEntity<BookStoreResponse> uploadFile(
+    public ResponseEntity<?> uploadFile(
             @PathVariable Long bookId,
             @RequestParam("file") MultipartFile file) {
 
-        String content = "";
         try {
             bookService.store(bookId, file);
-
-            content = "Uploaded the file successfully: " + file.getOriginalFilename();
-            return ResponseEntity.status(HttpStatus.OK).body(new BookStoreResponse(content));
+            BookStoreResponse response = new BookStoreResponse(file.getOriginalFilename());
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            content = "Could not upload the file: " + file.getOriginalFilename() + "!";
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new BookStoreResponse(content));
+            return (ResponseEntity<?>) ResponseEntity.internalServerError();
         }
     }
 
@@ -76,7 +112,10 @@ public class BookController {
     @ResponseBody
     public ResponseEntity<Resource> downloadFile(@PathVariable Long bookId) throws BookNotFoundException {
         Resource file = bookService.load(bookId);
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+                .body(file);
     }
 }

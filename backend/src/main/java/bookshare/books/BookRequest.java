@@ -12,4 +12,5 @@ public class BookRequest {
     private Integer numPages;
     private String publisher;
     private Integer yearOfPublication;
+    private String fileName;
 }

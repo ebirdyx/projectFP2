@@ -33,29 +33,48 @@ public class AppUserService implements UserDetailsService {
     }
 
     public AppUser createUser(AppUser user) {
+        // Get non-admin role authority
         Authority role = getUserAuthority();
 
+        // Assign the non-admin role authority to the new user
         user.setAuthorities(Collections.singletonList(role));
+
+        // Transform the password of the user to an encrypted format
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
+        // Save the new user
         appUserRepository.save(user);
 
-        return appUserRepository.findByUsername(user.getUsername()).get();
+        // return the newly created user from the database
+        AppUser createdUser = appUserRepository.findByUsername(user.getUsername()).get();
+
+        return createdUser;
     }
 
     public Authority getUserAuthority() {
+        // Search for the normal USER authority in the database
         Optional<Authority> role = authorityRepository.findByAppUserRole(AppUserRole.USER);
-        return role.orElseGet(() -> Authority.createAuthority(AppUserRole.USER, "User role"));
+
+        // return the user authority or create it if it doesn't exist
+        return role
+                .orElseGet(() ->
+                        Authority.createAuthority(AppUserRole.USER, "User role"));
     }
 
+    // Spring runs this method on first start
     @PostConstruct
     protected void initUsers() {
+        // Search for the admin user
         Optional<AppUser> adminExist = appUserRepository.findByUsername("admin");
+
+        // if the admin already exist we return
         if (adminExist.isPresent())
             return;
 
+        // Create the admin role authority
         Authority adminAuthority = Authority.createAuthority(AppUserRole.ADMIN, "Admin role");
 
+        // Create an AppUser admin
         AppUser admin = createUser(
                 "admin",
                 "admin",
@@ -64,6 +83,7 @@ public class AppUserService implements UserDetailsService {
                 "admin@local",
                 adminAuthority);
 
+        // Save the admin user to the database
         appUserRepository.save(admin);
     }
 

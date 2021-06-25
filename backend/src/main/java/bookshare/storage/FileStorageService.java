@@ -20,9 +20,10 @@ public class FileStorageService implements StorageService {
 
     public FileStorageService() {
         try {
+            // We create the folder for uploads
             Files.createDirectory(root);
         } catch (FileAlreadyExistsException ignored) {
-
+            // skip if the folder already exist
         } catch (IOException e) {
             throw new RuntimeException("Could not initialize folder for upload!");
         }
@@ -31,9 +32,12 @@ public class FileStorageService implements StorageService {
     @Override
     public void save(MultipartFile file) {
         try {
-            Files.copy(file.getInputStream(), this.root.resolve(Objects.requireNonNull(file.getOriginalFilename())));
+            // Save the file to disk
+            Files.copy(
+                    file.getInputStream(),
+                    this.root.resolve(Objects.requireNonNull(file.getOriginalFilename())));
         } catch (FileAlreadyExistsException e) {
-
+            // skip if the file already exist
         } catch (Exception e) {
             throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
         }
@@ -42,10 +46,13 @@ public class FileStorageService implements StorageService {
     @Override
     public Resource load(String filename) {
         try {
+            // Get absolute path of the filename
             Path file = root.resolve(filename);
+            // Create a resource from the file
             Resource resource = new UrlResource(file.toUri());
 
             if (resource.exists() || resource.isReadable()) {
+                // return the resource if exist and readable
                 return resource;
             } else {
                 throw new RuntimeException("Could not read the file!");

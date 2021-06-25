@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class BookStoreResponse {
-    private String content;
+    private String fileName;
 }

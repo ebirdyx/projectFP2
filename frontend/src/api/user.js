@@ -14,12 +14,16 @@ const UserApi = () => {
   } : {}
 
   return {
-    login: (username, password) => axios.post(`${API_URL}/api/v1/auth/login`, {username, password}),
+    login: (username, password) => axios.post(
+        `${API_URL}/api/v1/auth/login`,
+        {username, password}),
     register: (username, firstName, lastName, email, password) =>
       axios.post(`${API_URL}/api/v1/auth/register`, {
         username, firstName, lastName, email, password
       }),
-    profile: () => axios.get(`${API_URL}/api/v1/auth/userinfo`, defaultOptions)
+    profile: () => axios.get(
+        `${API_URL}/api/v1/auth/userinfo`,
+        defaultOptions)
   }
 }
 

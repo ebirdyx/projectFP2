@@ -9,7 +9,6 @@ const UserProfile = () => {
   useEffect(() => {
     UserApi.profile()
       .then(res => {
-        console.log(res.data)
         setUserProfile(res.data)
       })
       .catch(err => console.log(err))
